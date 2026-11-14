@@ -47,3 +47,15 @@ jobs:
           run: bin/rails db:prepare
         - name: Run Tests
           run: bin/rails spec
+
+  vulnerability-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Scan for Vulnerabilities
+        run: bin/brakeman --no-pager
