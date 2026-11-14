@@ -9,9 +9,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - &checkout
+        name: Checkout Code
         uses: actions/checkout@v6
-      - name: Setup Ruby
+      - &setup-ruby
+        name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
@@ -37,12 +39,8 @@ jobs:
           --health-retries 5
     runs-on: ubuntu-latest
     steps:
-        - name: Checkout Code
-          uses: actions/checkout@v6
-        - name: Setup Ruby
-          uses: ruby/setup-ruby@v1
-          with:
-            bundler-cache: true
+        - *checkout
+        - *setup-ruby
         - name: Prepare DB
           run: bin/rails db:prepare
         - name: Run Tests
@@ -51,11 +49,7 @@ jobs:
   vulnerability-scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v6
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+      - *checkout
+      - *scan-ruby
       - name: Scan for Vulnerabilities
         run: bin/brakeman --no-pager
