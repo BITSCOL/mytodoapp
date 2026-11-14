@@ -18,7 +18,7 @@ RSpec.describe "todos/index", type: :view do
 
   it "renders a list of todos" do
     render
-    cell_selector = 'div>p'
+    cell_selector = 'div[id^="todo_"]>div'
     assert_select cell_selector, text: Regexp.new("Title".to_s), count: 2
     assert_select cell_selector, text: Regexp.new("Description".to_s), count: 2
     assert_select cell_selector, text: Regexp.new(false.to_s), count: 2
