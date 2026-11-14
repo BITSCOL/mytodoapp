@@ -17,3 +17,17 @@ jobs:
           bundler-cache: true
       - name: Run Rubocop
         run: bin/rubocop -f github
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout Code
+          uses: actions/checkout@v6
+        - name: Setup Ruby
+          uses: ruby/setup-ruby@v1
+          with:
+            bundler-cache: true
+        - name: Prepare DB
+          run: bin/rails db:prepare
+        - name: Run Tests
+          run: bin/rails spec
